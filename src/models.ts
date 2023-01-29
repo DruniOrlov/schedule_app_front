@@ -12,3 +12,8 @@ export interface ILesson {
     group: string
     auditorium: string
 }
+
+export interface IDay {
+    date: string
+    lessons: ILesson[]
+}
