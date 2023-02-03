@@ -55,7 +55,7 @@ class App extends React.Component<AppProps, AppState> {
         }
         const response = axios
             // @ts-ignore
-            .get<IDay>(`${document.location.href}api/v1/schedule/?date=${date.toLocaleDateString()}&${this.state.selected.type}=${this.state.selected.value.id}`.replace("3000", "8000"))
+            .get<IDay>(`${document.location.href}api/v1/schedule/?date=${date.toLocaleDateString()}&${this.state.selected.value.type}=${this.state.selected.value.id}`.replace("3000", "8000"))
             .then(response => {
                 this.setState({weekday: response.data})
             })
@@ -85,13 +85,12 @@ class App extends React.Component<AppProps, AppState> {
                 let temp = {
                     // @ts-ignore
                     label: item.name,
+                    // @ts-ignore
                     value: {
                         // @ts-ignore
                         id: item.id,
-                        type: "group"
-                    },
-                    // @ts-ignore
-                    type: "group"
+                        // @ts-ignore
+                        type: "group"}
                 }
                 // @ts-ignore
                 opt.push(temp)
@@ -117,10 +116,8 @@ class App extends React.Component<AppProps, AppState> {
                         value: {
                             // @ts-ignore
                             id: item.id,
-                            type: "teacher"
-                        },
-                        // @ts-ignore
-                        type: "tutor"
+                            // @ts-ignore
+                            type: "tutor"}
                     }
                     // @ts-ignore
                     opt.push(temp)
@@ -183,10 +180,11 @@ class App extends React.Component<AppProps, AppState> {
                     // @ts-ignore
                     this.setState({selected: option})
                     setTimeout(() => this.fetchLessons(this.state.date), 100)
+
                 }
                 }
                 isClearable={true}
-                onFocus={() => {
+                onFocus={option => {
                     this.setState({selected: {value: "", label: "", type: ""}})
                 }
                 }
