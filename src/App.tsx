@@ -54,7 +54,8 @@ class App extends React.Component<AppProps, AppState> {
             this.setState({weekday: iDay})
         }
         const response = axios
-            .get<IDay>(`${document.location.href}api/v1/schedule/?date=${date.toLocaleDateString()}&${this.state.selected.type}=${this.state.selected.value}`.replace("3000", "8000"))
+            // @ts-ignore
+            .get<IDay>(`${document.location.href}api/v1/schedule/?date=${date.toLocaleDateString()}&${this.state.selected.type}=${this.state.selected.value.id}`.replace("3000", "8000"))
             .then(response => {
                 this.setState({weekday: response.data})
             })
@@ -84,8 +85,11 @@ class App extends React.Component<AppProps, AppState> {
                 let temp = {
                     // @ts-ignore
                     label: item.name,
-                    // @ts-ignore
-                    value: item.id,
+                    value: {
+                        // @ts-ignore
+                        id: item.id,
+                        type: "group"
+                    },
                     // @ts-ignore
                     type: "group"
                 }
@@ -110,7 +114,11 @@ class App extends React.Component<AppProps, AppState> {
                         // @ts-ignore
                         label: item.full_name,
                         // @ts-ignore
-                        value: item.id,
+                        value: {
+                            // @ts-ignore
+                            id: item.id,
+                            type: "teacher"
+                        },
                         // @ts-ignore
                         type: "tutor"
                     }
@@ -174,6 +182,7 @@ class App extends React.Component<AppProps, AppState> {
                 onChange={option => {
                     // @ts-ignore
                     this.setState({selected: option})
+                    setTimeout(() => this.fetchLessons(this.state.date), 100)
                 }
                 }
                 isClearable={true}
